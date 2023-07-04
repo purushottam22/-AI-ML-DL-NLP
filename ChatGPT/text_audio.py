@@ -10,12 +10,11 @@ def text_to_speech(data):
 
 def speech_to_text():
     r = sr.Recognizer()
-    print(r)
 
     try:
         # use the microphone as source for input.
         with sr.Microphone() as source2:
-            text_to_speech("Please speak now")
+            text_to_speech("Please speak now. you time limit is five sec now")
             # wait for a second to let the recognizer
             # adjust the energy threshold based on
             # the surrounding noise level
