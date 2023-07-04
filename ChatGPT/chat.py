@@ -1,10 +1,12 @@
 import openai
+import text_audio
+
 
 openai.api_key = "your_API_key"
 
 model_engine = "text-davinci-003"
 
-prompt = "Hello, how are you"
+prompt = text_audio.speech_to_text()
 tmp = 0.5
 
 completion = openai.Completion.create(
@@ -17,4 +19,4 @@ completion = openai.Completion.create(
 )
 
 response = completion.choices[0].text
-print(response)
+text_audio.text_to_speech(response)
