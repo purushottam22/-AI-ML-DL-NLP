@@ -14,7 +14,7 @@ def speech_to_text():
     try:
         # use the microphone as source for input.
         with sr.Microphone() as source2:
-            text_to_speech("Please speak now. you time limit is five sec now")
+            text_to_speech("Please speak now. you time limit is five seconds")
             # wait for a second to let the recognizer
             # adjust the energy threshold based on
             # the surrounding noise level
@@ -30,12 +30,16 @@ def speech_to_text():
             r.adjust_for_ambient_noise(source2, duration=0.1)
 
             # listens for the user's input. Max 5 sec
+            while True:
+                audio = r.listen(source2, timeout=3, phrase_time_limit=5)
+                text_to_speech("Thanks. Processing")
+                # Using google to recognize audio
+                data = r.recognize_google(audio)
+                data = data.lower()
+                if len(data) != 10:
+                    break
+                text_to_speech("Sorry, repeat again")
 
-            audio = r.listen(source2, timeout=3, phrase_time_limit=5)
-            text_to_speech("Thanks. Processing")
-            # Using google to recognize audio
-            data = r.recognize_google(audio)
-            data = data.lower()
             print(data)
             return data
     except sr.RequestError as e:
@@ -46,9 +50,3 @@ def speech_to_text():
 
         return 0
 
-
-text = speech_to_text()
-if text != 0:
-    text_to_speech(text)
-else:
-    text_to_speech("Sorry, fault occur in microphone")
