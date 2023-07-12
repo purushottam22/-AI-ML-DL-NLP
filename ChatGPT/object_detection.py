@@ -24,7 +24,7 @@ def object_detection(class_list, detection_color, model):
 
     frame = cv2.resize(frame, (frame_wid, frame_height))
 
-    cv2.imwrite("images/img.png", frame)
+    # cv2.imwrite("images/img.png", frame)
 
     detect_params = model.predict(source="images/img.png", conf=0.5, save=True)
 
