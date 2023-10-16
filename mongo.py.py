@@ -29,21 +29,35 @@ print("connection done")
 #     document = {"video_data": binary_data}
 #     collection.insert_one(document)
 
-###############################################   Extraction   #########################################
+#####  extract object id
 
-# Query to retrieve the document containing the image data
-query = {"_id": ObjectId("652d441fd9418e9339f8e261")}  # Replace "document_id" with the actual document's _id
+object_ids = []
 
-# Retrieve the document
-document = collection.find_one(query)
-
-if document:
-    # Extract image data from the document
-    image_data = document.get("video_data")
-    print(image_data)
-    if image_data:
-        with open("output_vid.mp4", "wb") as image_file:
-            image_file.write(image_data)
+for document in collection.find({}, {"_id": 1}):
+    object_ids.append(document["_id"])
 
 # Close the MongoDB connection
 client.close()
+
+# Print or use the list of extracted ObjectIDs
+for obj_id in object_ids:
+    print(obj_id)
+
+###############################################   Extraction   #########################################
+
+# Query to retrieve the document containing the image data
+# query = {"_id": ObjectId("652d441fd9418e9339f8e261")}  # Replace "document_id" with the actual document's _id
+#
+# # Retrieve the document
+# document = collection.find_one(query)
+#
+# if document:
+#     # Extract image data from the document
+#     image_data = document.get("video_data")
+#     print(image_data)
+#     if image_data:
+#         with open("output_vid.mp4", "wb") as image_file:
+#             image_file.write(image_data)
+
+# Close the MongoDB connection
+# client.close()
