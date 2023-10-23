@@ -42,6 +42,11 @@ class mongoDB:
                     image_file.write(image_data)
 
     def get_img(self, object_id, output_path):
+        """
+        desc: it will get inage based ib ibect id 
+        :param object_id: int
+        :param output_path: str
+        """
         query = {"_id": ObjectId(object_id)}
 
         document = self.collection.find_one(query)
@@ -55,4 +60,6 @@ class mongoDB:
 
 
 dbconnect = mongoDB("admin", "t")
+dbconnect.insert_image("root")
+dbconnect.get_img()
 client.close()
