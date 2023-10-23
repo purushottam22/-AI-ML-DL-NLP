@@ -1,63 +1,58 @@
 import pymongo
 from bson import ObjectId
 
-# Create a connection to the local MongoDB server
-client = pymongo.MongoClient("mongodb://localhost:27017/")
 
-# Access a specific database or create a new one
-db = client["admin"]
+class mongoDB:
+    def __init__(self, db, table):
+        client = pymongo.MongoClient("mongodb://localhost:27017/")
+        self.db = client[db]
+        self.collection = self.db[table]
 
-# Access a specific collection within the database
-collection = db["t"]
+    def insert_data(self, data):
+        self.collection.insert_one(data)
 
-print("connection done")
+    def insert_image(self, img_path):
+        with open(img_path, "rb") as image_file:
+            binary_data = image_file.read()
+            document = {"image_data": binary_data}
+            self.collection.insert_one(document)
 
-###############################################   Insertion   #########################################
-# to save data
-# data = {"name": "RAM"}
-# collection.insert_one(data)
+    def insert_video(self, video_path):
+        with open(video_path, "rb") as video_file:
+            binary_data = video_file.read()
+            document = {"video_data": binary_data}
+            self.collection.insert_one(document)
 
-# To save img
-# with open("C:/Users/kumar/PycharmProjects/mdb/pk.png", "rb") as image_file:
-#     binary_data = image_file.read()
-#     document = {"image_data": binary_data}
-#     collection.insert_one(document)
+    def get_all_collection(self):
+        object_ids = []
+        for document in self.collection.find({}, {"_id": 1}):
+            object_ids.append(document["_id"])
+        return object_ids
+
+    def get_img(self, object_id, output_path):
+        query = {"_id": ObjectId(object_id)}
+
+        document = self.collection.find_one(query)
+
+        if document:
+            # Extract image data from the document
+            image_data = document.get("image_data")
+            if image_data:
+                with open(output_path, "wb") as image_file:
+                    image_file.write(image_data)
+
+    def get_img(self, object_id, output_path):
+        query = {"_id": ObjectId(object_id)}
+
+        document = self.collection.find_one(query)
+
+        if document:
+            # Extract image data from the document
+            image_data = document.get("video_data")
+            if image_data:
+                with open(output_path, "wb") as video_file:
+                    video_file.write(image_data)
 
 
-# with open("C:/Users/kumar/PycharmProjects/mdb/t1.mp4", "rb") as video_file:
-#     binary_data = video_file.read()
-#     document = {"video_data": binary_data}
-#     collection.insert_one(document)
-
-#####  extract object id
-
-object_ids = []
-
-for document in collection.find({}, {"_id": 1}):
-    object_ids.append(document["_id"])
-
-# Close the MongoDB connection
+dbconnect = mongoDB("admin", "t")
 client.close()
-
-# Print or use the list of extracted ObjectIDs
-for obj_id in object_ids:
-    print(obj_id)
-
-###############################################   Extraction   #########################################
-
-# Query to retrieve the document containing the image data
-# query = {"_id": ObjectId("652d441fd9418e9339f8e261")}  # Replace "document_id" with the actual document's _id
-#
-# # Retrieve the document
-# document = collection.find_one(query)
-#
-# if document:
-#     # Extract image data from the document
-#     image_data = document.get("video_data")
-#     print(image_data)
-#     if image_data:
-#         with open("output_vid.mp4", "wb") as image_file:
-#             image_file.write(image_data)
-
-# Close the MongoDB connection
-# client.close()
