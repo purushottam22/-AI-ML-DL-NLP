@@ -4,14 +4,14 @@ import pyrebase
 class FireBase:
     def __init__(self):
         config = {
-            "apiKey": "AIzaSyA06PmLFx-6XEtmKwjOpVVzXeZ7e2nPqqM",
-            "authDomain": "testing-906b6.firebaseapp.com",
-            "databaseURL": "https://testing-906b6-default-rtdb.asia-southeast1.firebasedatabase.app/",
-            "projectId": "testing-906b6",
-            "storageBucket": "testing-906b6.appspot.com",
-            "messagingSenderId": "168740903247",
-            "appId": "1:168740903247:web:71a33cb64dff9f164fcd3a",
-            "measurementId": "G-FJVW2T2P4H"
+            "apiKey": "-",
+            "authDomain": "-906b6..",
+            "databaseURL": "://testing--default-re.app/",
+            "projectId": "testing-",
+            "storageBucket": "testing-906b6..com",
+            "messagingSenderId": "",
+            "appId": "1:168740903247:web:",
+            "measurementId": "G-"
         }
 
         firebase = pyrebase.initialize_app(config)
